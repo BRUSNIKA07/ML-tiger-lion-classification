@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+venv/
+env/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Data files (если большие – не пушим)
+*.csv
+*.h5
+*.pkl
+data/raw/
+data/processed/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
