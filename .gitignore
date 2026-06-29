@@ -1,9 +1,9 @@
-# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-*.so
+*.pyo
+*.pyd
 
-# Virtual environments
+
 venv/
 env/
 .venv/
@@ -14,12 +14,13 @@ env/
 .idea/
 *.iml
 
-# Data files (если большие – не пушим)
-*.csv
-*.h5
-*.pkl
-data/raw/
-data/processed/
+artifacts/
+*.pt
 
-# Jupyter checkpoints
 .ipynb_checkpoints/
+
+
+data/raw/**
+!data/raw/
+!data/raw/**/.gitkeep
+
