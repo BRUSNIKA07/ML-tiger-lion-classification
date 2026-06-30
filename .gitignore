@@ -20,7 +20,5 @@ artifacts/
 .ipynb_checkpoints/
 
 
-data/raw/**
-!data/raw/
-!data/raw/**/.gitkeep
+
 
