@@ -1,5 +1,7 @@
 from pathlib import Path
-from torch.utils.data import DataLoader
+from typing import List, Tuple
+import torch
+from torch.utils.data import DataLoader, Dataset
 from torchvision import datasets, transforms
 
 def get_train_transform() -> transforms.Compose:
@@ -22,7 +24,7 @@ def get_eval_transforms() -> transforms.Compose:
         ]
     )
 
-def create_datasets(data_dir: str = "./data"):
+def create_datasets(data_dir: str = "./data") -> Tuple[Dataset, Dataset, Dataset]:
     data_path = Path(data_dir)
     train_dir = data_path / "train"
     valid_dir = data_path / "valid"
@@ -41,7 +43,7 @@ def create_dataloaders(
     data_dir: str = "./data",
     batch_size: int = 32,
     num_workers: int = 0,
-):
+) -> Tuple[DataLoader, DataLoader, DataLoader]:
     train_dataset, valid_dataset, test_dataset = create_datasets(data_dir=data_dir)
 
     train_loader = DataLoader(
@@ -65,7 +67,7 @@ def create_dataloaders(
 
     return train_loader, valid_loader, test_loader
 
-def get_class_names(data_dir: str = "./data") -> list[str]:
+def get_class_names(data_dir: str = "./data") -> List[str]:
     data_path = Path(data_dir)
     train_dir = data_path / "train"
     if not train_dir.exists():
