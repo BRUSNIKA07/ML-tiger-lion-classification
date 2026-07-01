@@ -3,9 +3,6 @@ import random
 import shutil
 
 
-# =========================
-# SPLIT ONE CLASS
-# =========================
 def split_class_files(
     src_class_dir: Path,
     train_class_dir: Path,
@@ -15,7 +12,6 @@ def split_class_files(
     valid_ratio: float,
     seed: int,
 ):
-
     if not src_class_dir.exists():
         print(f"Skip missing: {src_class_dir}")
         return
@@ -26,7 +22,6 @@ def split_class_files(
         print(f"Empty folder: {src_class_dir}")
         return
 
-    # FIX: deterministic shuffle
     rng = random.Random(seed)
     rng.shuffle(files)
 
@@ -39,12 +34,10 @@ def split_class_files(
     valid_files = files[train_count:train_count + valid_count]
     test_files = files[train_count + valid_count:]
 
-    # create dirs safely
     train_class_dir.mkdir(parents=True, exist_ok=True)
     valid_class_dir.mkdir(parents=True, exist_ok=True)
     test_class_dir.mkdir(parents=True, exist_ok=True)
 
-    # copy safely (no overwrite confusion)
     for f in train_files:
         shutil.copy2(f, train_class_dir / f.name)
 
@@ -61,11 +54,7 @@ def split_class_files(
     )
 
 
-# =========================
-# MAIN
-# =========================
 if __name__ == "__main__":
-
     data_dir = Path("./data")
     raw_dir = data_dir / "raw"
 
@@ -78,13 +67,11 @@ if __name__ == "__main__":
 
     class_names = sorted([p.name for p in raw_dir.iterdir() if p.is_dir()])
 
-    # 🔥 HARD RESET (IMPORTANT FIX)
     for split in ["train", "valid", "test"]:
         split_dir = data_dir / split
         if split_dir.exists():
             shutil.rmtree(split_dir)
 
-    # recreate structure clean
     for class_name in class_names:
         split_class_files(
             src_class_dir=raw_dir / class_name,

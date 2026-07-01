@@ -7,11 +7,7 @@ import json
 from src.dataset import create_dataloaders, get_class_names
 
 
-# =========================
-# MODEL
-# =========================
 def build_model(num_classes=2, freeze_backbone=True):
-
     model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
 
     if freeze_backbone:
@@ -19,15 +15,10 @@ def build_model(num_classes=2, freeze_backbone=True):
             p.requires_grad = False
 
     model.fc = nn.Linear(model.fc.in_features, num_classes)
-
     return model
 
 
-# =========================
-# TRAIN / EVAL
-# =========================
 def train_one_epoch(model, loader, criterion, optimizer, device):
-
     model.train()
     total_loss, correct, total = 0.0, 0, 0
 
@@ -48,7 +39,6 @@ def train_one_epoch(model, loader, criterion, optimizer, device):
 
 
 def eval_one_epoch(model, loader, criterion, device):
-
     model.eval()
     total_loss, correct, total = 0.0, 0, 0
 
@@ -66,9 +56,6 @@ def eval_one_epoch(model, loader, criterion, device):
     return total_loss / total, correct / total
 
 
-# =========================
-# TRAIN LOOP
-# =========================
 def train_model(
     data_dir="./data",
     epochs=10,
@@ -78,12 +65,9 @@ def train_model(
     num_workers=2,
     freeze_backbone=True,
 ):
-
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # 🔥 FIX: явно указываем правильный порядок классов (lion=0, tiger=1)
     class_names = ["lion", "tiger"]
-
     print("FINAL CLASS ORDER:", class_names)
 
     class_to_idx = {c: i for i, c in enumerate(class_names)}
@@ -109,7 +93,6 @@ def train_model(
     model_path.parent.mkdir(parents=True, exist_ok=True)
 
     for epoch in range(1, epochs + 1):
-
         train_loss, train_acc = train_one_epoch(model, train_loader, criterion, optimizer, device)
         val_loss, val_acc = eval_one_epoch(model, valid_loader, criterion, device)
 

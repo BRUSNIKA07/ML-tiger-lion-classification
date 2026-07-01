@@ -6,9 +6,6 @@ from torch.utils.data import DataLoader, Dataset
 from torchvision import datasets, transforms
 
 
-# =========================
-# TRANSFORMS
-# =========================
 def get_train_transform() -> transforms.Compose:
     return transforms.Compose([
         transforms.Resize((224, 224)),
@@ -33,9 +30,6 @@ def get_eval_transforms() -> transforms.Compose:
     ])
 
 
-# =========================
-# SAVE CLASS MAPPING 🔥 FIX
-# =========================
 def save_class_mapping(class_to_idx: Dict[str, int], save_path="artifacts/classes.json"):
     Path(save_path).parent.mkdir(parents=True, exist_ok=True)
 
@@ -43,9 +37,6 @@ def save_class_mapping(class_to_idx: Dict[str, int], save_path="artifacts/classe
         json.dump(class_to_idx, f, indent=4, ensure_ascii=False)
 
 
-# =========================
-# DATASETS
-# =========================
 def create_datasets(data_dir: str = "./data") -> Tuple[Dataset, Dataset, Dataset]:
     data_path = Path(data_dir)
 
@@ -74,15 +65,11 @@ def create_datasets(data_dir: str = "./data") -> Tuple[Dataset, Dataset, Dataset
         transform=get_eval_transforms()
     )
 
-    # 🔥 FIX: сохраняем ЕДИНЫЙ порядок классов
     save_class_mapping(train_dataset.class_to_idx)
 
     return train_dataset, valid_dataset, test_dataset
 
 
-# =========================
-# DATALOADERS
-# =========================
 def create_dataloaders(
     data_dir: str = "./data",
     batch_size: int = 32,
@@ -118,9 +105,6 @@ def create_dataloaders(
     return train_loader, valid_loader, test_loader
 
 
-# =========================
-# CLASS NAMES (SAFE VERSION)
-# =========================
 def get_class_names(data_dir: str = "./data") -> List[str]:
     train_dir = Path(data_dir) / "train"
 
