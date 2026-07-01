@@ -81,9 +81,8 @@ def train_model(
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # 🔥 FIX: берём порядок ИЗ ImageFolder (это 100% источник истины)
-    class_names = get_class_names(data_dir)
-    class_names = sorted(class_names)
+    # 🔥 FIX: явно указываем правильный порядок классов (lion=0, tiger=1)
+    class_names = ["lion", "tiger"]
 
     print("FINAL CLASS ORDER:", class_names)
 
